@@ -1,6 +1,6 @@
 # Examples — Trigger Messages
 
-## Basic
+## Cursor — Basic
 
 ```
 @web-seo-google-naver
@@ -9,7 +9,16 @@ Next.js 앱 Google이랑 네이버 SEO 설정해줘.
 도메인: https://myapp.com
 ```
 
-## After first deploy
+## Claude Code — Basic
+
+```
+/web-seo-google-naver
+
+Next.js 앱 Google이랑 네이버 SEO 설정해줘.
+도메인: https://myapp.com
+```
+
+## Natural prompt (both IDEs — auto-loads skill)
 
 ```
 배포는 했는데 검색에 안 잡혀. Google Search Console이랑 네이버 서치어드바이저 SEO 코드랑 sitemap 설정해줘.

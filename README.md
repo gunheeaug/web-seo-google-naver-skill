@@ -1,8 +1,8 @@
-# Cursor Skill: Web SEO (Google + Naver)
+# Agent Skill: Web SEO (Google + Naver)
 
-**Cursor Agent Skill** for Next.js App Router projects — implements Google Search Console and Naver Search Advisor SEO end-to-end.
+**Cursor & Claude Code skill** for Next.js App Router — Google Search Console + Naver Search Advisor SEO end-to-end.
 
-바이브코딩으로 웹 배포한 뒤, Google·네이버 검색 등록까지 AI 에이전트가 코드 작성 → 빌드 검증 → 콘솔 체크리스트까지 안내하게 하는 스킬이야.
+바이브코딩으로 웹 배포한 뒤, Google·네이버 검색 등록까지 AI가 코드 작성 → 빌드 검증 → 콘솔 체크리스트까지 안내하게 하는 스킬.
 
 ---
 
@@ -10,8 +10,8 @@
 
 - `sitemap.ts`, `robots.ts`, verification meta tags
 - Per-page metadata (title, description, canonical, OG, Twitter)
-- **Naver rules**: description ≤ 80 chars, `og:description` === `description`, unique per page
-- **Google rules**: JSON-LD, longer schema descriptions, Search Console sitemap
+- **Naver**: description ≤ 80 chars, `og:description` === `description`, unique per page
+- **Google**: JSON-LD, longer schema descriptions, Search Console sitemap
 - SSR crawlable landing pages for SPA/map apps
 - Build + curl verification before claiming done
 
@@ -21,29 +21,43 @@ No project-specific secrets, domains, or product names — works on any Next.js 
 
 ## Install
 
-### Option A — Personal skill (all projects)
+Same repo, different folder depending on your IDE:
 
+### Cursor
+
+**Personal (all projects):**
 ```bash
 git clone https://github.com/gunheeaug/cursor-skill-web-seo-google-naver.git ~/.cursor/skills/web-seo-google-naver
 ```
 
-### Option B — Project skill (this repo only)
-
+**Project (one repo):**
 ```bash
 mkdir -p .cursor/skills
 git clone https://github.com/gunheeaug/cursor-skill-web-seo-google-naver.git .cursor/skills/web-seo-google-naver
 ```
 
-Or copy the folder manually into `.cursor/skills/web-seo-google-naver/`.
+Restart Cursor if the skill does not appear.
 
-Restart Cursor if the skill does not appear immediately.
+### Claude Code
+
+**Personal (all projects):**
+```bash
+git clone https://github.com/gunheeaug/cursor-skill-web-seo-google-naver.git ~/.claude/skills/web-seo-google-naver
+```
+
+**Project (one repo):**
+```bash
+mkdir -p .claude/skills
+git clone https://github.com/gunheeaug/cursor-skill-web-seo-google-naver.git .claude/skills/web-seo-google-naver
+```
+
+Skills are picked up automatically. If you add the folder mid-session, run `/reload-skills` or restart Claude Code.
 
 ---
 
 ## Usage
 
-In Cursor chat:
-
+### Cursor
 ```
 @web-seo-google-naver
 
@@ -51,7 +65,28 @@ Next.js 앱 Google이랑 네이버 SEO 설정해줘.
 도메인: https://myapp.com
 ```
 
+### Claude Code
+```
+/web-seo-google-naver
+
+Next.js 앱 Google이랑 네이버 SEO 설정해줘.
+도메인: https://myapp.com
+```
+
+Or just ask naturally — Claude loads the skill when you mention SEO, Search Console, or 서치어드바이저.
+
 More examples: [examples.md](examples.md)
+
+---
+
+## Cursor vs Claude Code
+
+| | Cursor | Claude Code |
+|---|--------|-------------|
+| Personal path | `~/.cursor/skills/web-seo-google-naver/` | `~/.claude/skills/web-seo-google-naver/` |
+| Project path | `.cursor/skills/web-seo-google-naver/` | `.claude/skills/web-seo-google-naver/` |
+| Invoke | `@web-seo-google-naver` | `/web-seo-google-naver` |
+| Skill file | `SKILL.md` | `SKILL.md` (same) |
 
 ---
 
@@ -79,15 +114,13 @@ Naver markup guide: https://searchadvisor.naver.com/guide/markup-content
 
 ---
 
-## Env vars (set in hosting dashboard — never commit values)
+## Env vars (hosting dashboard — never commit values)
 
 ```env
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=
 NEXT_PUBLIC_NAVER_SITE_VERIFICATION=
 ```
-
-Get verification codes from each console after registering your site.
 
 ---
 

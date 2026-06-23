@@ -6,6 +6,7 @@ description: >-
   JSON-LD, and Naver-compliant descriptions (80 chars, og:description match).
   Use when deploying a web service, setting up SEO, Search Console, 서치어드바이저,
   sitemap.xml, robots.txt, openGraph, or when the user asks for Google/Naver SEO.
+  Cursor: invoke with @web-seo-google-naver. Claude Code: invoke with /web-seo-google-naver.
 ---
 
 # Web SEO — Google + Naver (Next.js)
