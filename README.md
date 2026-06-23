@@ -27,13 +27,13 @@ Same repo, different folder depending on your IDE:
 
 **Personal (all projects):**
 ```bash
-git clone https://github.com/gunheeaug/cursor-skill-web-seo-google-naver.git ~/.cursor/skills/web-seo-google-naver
+git clone https://github.com/gunheeaug/web-seo-google-naver-skill.git ~/.cursor/skills/web-seo-google-naver
 ```
 
 **Project (one repo):**
 ```bash
 mkdir -p .cursor/skills
-git clone https://github.com/gunheeaug/cursor-skill-web-seo-google-naver.git .cursor/skills/web-seo-google-naver
+git clone https://github.com/gunheeaug/web-seo-google-naver-skill.git .cursor/skills/web-seo-google-naver
 ```
 
 Restart Cursor if the skill does not appear.
@@ -42,13 +42,13 @@ Restart Cursor if the skill does not appear.
 
 **Personal (all projects):**
 ```bash
-git clone https://github.com/gunheeaug/cursor-skill-web-seo-google-naver.git ~/.claude/skills/web-seo-google-naver
+git clone https://github.com/gunheeaug/web-seo-google-naver-skill.git ~/.claude/skills/web-seo-google-naver
 ```
 
 **Project (one repo):**
 ```bash
 mkdir -p .claude/skills
-git clone https://github.com/gunheeaug/cursor-skill-web-seo-google-naver.git .claude/skills/web-seo-google-naver
+git clone https://github.com/gunheeaug/web-seo-google-naver-skill.git .claude/skills/web-seo-google-naver
 ```
 
 Skills are picked up automatically. If you add the folder mid-session, run `/reload-skills` or restart Claude Code.
