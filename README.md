@@ -1,21 +1,28 @@
-# Agent Skill: Web SEO (Google + Naver)
+# Agent Skill: Web SEO + AEO + GEO (Google + Naver)
 
-**Cursor & Claude Code skill** for Next.js App Router — Google Search Console + Naver Search Advisor SEO end-to-end.
+**Cursor & Claude Code skill** for Next.js App Router — classic search indexing (SEO), Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO) end-to-end.
 
-바이브코딩으로 웹 배포한 뒤, Google·네이버 검색 등록까지 AI가 코드 작성 → 빌드 검증 → 콘솔 체크리스트까지 안내하게 하는 스킬.
+바이브코딩으로 웹 배포한 뒤, Google·네이버 검색 등록 + FAQ/리뷰 스키마 + 동적 OG까지 AI가 코드 작성 → 빌드 검증 → 콘솔 체크리스트까지 안내하게 하는 스킬.
 
 ---
 
 ## What it does
 
+### SEO (Google + Naver)
 - `sitemap.ts`, `robots.ts`, verification meta tags
 - Per-page metadata (title, description, canonical, OG, Twitter)
 - **Naver**: description ≤ 80 chars, `og:description` === `description`, unique per page
-- **Google**: JSON-LD, longer schema descriptions, Search Console sitemap
+- **Google**: JSON-LD, Search Console sitemap
 - SSR crawlable landing pages for SPA/map apps
-- Build + curl verification before claiming done
 
-No project-specific secrets, domains, or product names — works on any Next.js web app.
+### AEO + GEO
+- `/faq` with visible Q&A + `FAQPage` JSON-LD
+- Entity detail SSR pages with `Restaurant`/`LocalBusiness` + **Review** schema from real UGC
+- `Organization`, `BreadcrumbList` JSON-LD
+- Dynamic OG (`opengraph-image.tsx`, `/api/og/*`)
+- Multi-domain canonical + host-aware sitemaps
+
+Build + curl verification before claiming done. No project-specific secrets — works on any Next.js web app.
 
 ---
 
@@ -27,13 +34,13 @@ Same repo, different folder depending on your IDE:
 
 **Personal (all projects):**
 ```bash
-git clone https://github.com/gunheeaug/web-seo-google-naver-skill.git ~/.cursor/skills/web-seo-google-naver
+git clone https://github.com/gunheeaug/web-seo-aeo-geo-google-naver-skill.git ~/.cursor/skills/web-seo-aeo-geo-google-naver
 ```
 
 **Project (one repo):**
 ```bash
 mkdir -p .cursor/skills
-git clone https://github.com/gunheeaug/web-seo-google-naver-skill.git .cursor/skills/web-seo-google-naver
+git clone https://github.com/gunheeaug/web-seo-aeo-geo-google-naver-skill.git .cursor/skills/web-seo-aeo-geo-google-naver
 ```
 
 Restart Cursor if the skill does not appear.
@@ -42,16 +49,18 @@ Restart Cursor if the skill does not appear.
 
 **Personal (all projects):**
 ```bash
-git clone https://github.com/gunheeaug/web-seo-google-naver-skill.git ~/.claude/skills/web-seo-google-naver
+git clone https://github.com/gunheeaug/web-seo-aeo-geo-google-naver-skill.git ~/.claude/skills/web-seo-aeo-geo-google-naver
 ```
 
 **Project (one repo):**
 ```bash
 mkdir -p .claude/skills
-git clone https://github.com/gunheeaug/web-seo-google-naver-skill.git .claude/skills/web-seo-google-naver
+git clone https://github.com/gunheeaug/web-seo-aeo-geo-google-naver-skill.git .claude/skills/web-seo-aeo-geo-google-naver
 ```
 
 Skills are picked up automatically. If you add the folder mid-session, run `/reload-skills` or restart Claude Code.
+
+**Migrating from `web-seo-google-naver`:** remove the old folder and clone again with the new name above.
 
 ---
 
@@ -59,21 +68,21 @@ Skills are picked up automatically. If you add the folder mid-session, run `/rel
 
 ### Cursor
 ```
-@web-seo-google-naver
+@web-seo-aeo-geo-google-naver
 
-Next.js 앱 Google이랑 네이버 SEO 설정해줘.
+Next.js 앱 SEO + AEO/GEO 설정해줘.
 도메인: https://myapp.com
 ```
 
 ### Claude Code
 ```
-/web-seo-google-naver
+/web-seo-aeo-geo-google-naver
 
-Next.js 앱 Google이랑 네이버 SEO 설정해줘.
+Next.js 앱 SEO + AEO/GEO 설정해줘.
 도메인: https://myapp.com
 ```
 
-Or just ask naturally — Claude loads the skill when you mention SEO, Search Console, or 서치어드바이저.
+Or ask naturally — the skill loads when you mention SEO, AEO, GEO, Search Console, or 서치어드바이저.
 
 More examples: [examples.md](examples.md)
 
@@ -83,9 +92,9 @@ More examples: [examples.md](examples.md)
 
 | | Cursor | Claude Code |
 |---|--------|-------------|
-| Personal path | `~/.cursor/skills/web-seo-google-naver/` | `~/.claude/skills/web-seo-google-naver/` |
-| Project path | `.cursor/skills/web-seo-google-naver/` | `.claude/skills/web-seo-google-naver/` |
-| Invoke | `@web-seo-google-naver` | `/web-seo-google-naver` |
+| Personal path | `~/.cursor/skills/web-seo-aeo-geo-google-naver/` | `~/.claude/skills/web-seo-aeo-geo-google-naver/` |
+| Project path | `.cursor/skills/web-seo-aeo-geo-google-naver/` | `.claude/skills/web-seo-aeo-geo-google-naver/` |
+| Invoke | `@web-seo-aeo-geo-google-naver` | `/web-seo-aeo-geo-google-naver` |
 | Skill file | `SKILL.md` | `SKILL.md` (same) |
 
 ---
@@ -94,8 +103,8 @@ More examples: [examples.md](examples.md)
 
 | File | Purpose |
 |------|---------|
-| `SKILL.md` | Agent workflow and done criteria |
-| `reference.md` | Code templates (metadata, sitemap, JSON-LD) |
+| `SKILL.md` | Agent workflow and done criteria (SEO + AEO + GEO) |
+| `reference.md` | Code templates (metadata, sitemap, JSON-LD, OG, multi-domain) |
 | `examples.md` | Trigger message examples |
 
 ---

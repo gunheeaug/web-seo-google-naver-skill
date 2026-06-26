@@ -1,4 +1,4 @@
-# Reference — Google + Naver SEO Patterns
+# Reference — SEO + AEO + GEO Patterns (Google + Naver)
 
 Generic templates. Replace placeholders with project-specific names, routes, and copy.
 
@@ -219,3 +219,246 @@ export const metadata: Metadata = {
 | Description | ~160 chars, flexible | ≤ 80 chars, unique per page |
 | og:description | flexible | must equal meta description |
 | Register URL | https preferred | **https required** |
+
+---
+
+## FAQ page (AEO)
+
+### Content + route
+
+```ts
+// lib/faq/content.ts
+export type FaqItem = { question: string; answer: string };
+
+export const SITE_FAQ: FaqItem[] = [
+  {
+    question: "What is YourBrand?",
+    answer: "Short factual answer visible on the page.",
+  },
+  // ...
+];
+```
+
+```tsx
+// components/seo/FaqPageView.tsx
+import { faqJsonLd } from "@/lib/seo";
+import { JsonLd } from "./JsonLd";
+
+export function FaqPageView({ items, title }: { items: FaqItem[]; title: string }) {
+  return (
+    <>
+      <JsonLd data={faqJsonLd(items)} />
+      <main>
+        <h1>{title}</h1>
+        <dl>
+          {items.map((item) => (
+            <div key={item.question}>
+              <dt>{item.question}</dt>
+              <dd>{item.answer}</dd>
+            </div>
+          ))}
+        </dl>
+      </main>
+    </>
+  );
+}
+```
+
+```ts
+// lib/seo.ts
+export function faqJsonLd(items: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
+```
+
+Naver meta for `/faq`: unique description ≤ 80 chars.
+
+---
+
+## Organization + Breadcrumb JSON-LD
+
+```ts
+export function organizationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo.png`,
+  };
+}
+
+export function breadcrumbJsonLd(
+  items: { name: string; href: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      item: item.href.startsWith("http") ? item.href : `${SITE_URL}${item.href}`,
+    })),
+  };
+}
+```
+
+---
+
+## Entity JSON-LD with reviews (AEO + GEO)
+
+```ts
+export function reviewJsonLd(
+  comments: { body: string | null; author_name: string | null; created_at: string }[],
+  defaultAuthor: string,
+) {
+  return comments
+    .filter((c) => c.body?.trim())
+    .slice(0, 10)
+    .map((c) => ({
+      "@type": "Review",
+      reviewBody: c.body!.trim(),
+      author: { "@type": "Person", name: c.author_name?.trim() || defaultAuthor },
+      datePublished: c.created_at.slice(0, 10),
+    }));
+}
+
+export function restaurantJsonLd(
+  place: YourEntityType,
+  comments: { body: string | null; author_name: string | null; created_at: string }[] = [],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    name: place.name,
+    url: `${SITE_URL}/items/${place.id}`,
+    description: entityLongDescription(place),
+    address: { "@type": "PostalAddress", streetAddress: place.address },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: place.lat,
+      longitude: place.lng,
+    },
+    ...(place.rating != null && place.review_count != null
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: place.rating,
+            reviewCount: place.review_count,
+          },
+        }
+      : {}),
+    review: reviewJsonLd(comments, "Community member"),
+  };
+}
+```
+
+SSR detail page must render the same review bodies in HTML.
+
+---
+
+## Dynamic Open Graph (ImageResponse)
+
+```tsx
+// app/items/[id]/opengraph-image.tsx
+import { ImageResponse } from "next/og";
+import { fetchEntityById } from "@/lib/server";
+
+export const dynamic = "force-dynamic";
+
+export default async function Image({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const entity = await fetchEntityById(id);
+  if (!entity) return new ImageResponse(<div>Not found</div>, { width: 1200, height: 630 });
+
+  return new ImageResponse(
+    (
+      <div style={{ display: "flex", width: "100%", height: "100%", background: "#111", color: "#fff", padding: 48 }}>
+        <div style={{ fontSize: 48, fontWeight: 700 }}>{entity.name}</div>
+      </div>
+    ),
+    { width: 1200, height: 630 },
+  );
+}
+```
+
+Share links with query params:
+
+```ts
+// app/api/og/list/route.ts
+import { ImageResponse } from "next/og";
+
+export const dynamic = "force-dynamic";
+
+export async function GET(req: Request) {
+  const token = new URL(req.url).searchParams.get("token");
+  // fetch list title by token...
+  return new ImageResponse(/* card JSX */, { width: 1200, height: 630 });
+}
+```
+
+Wire in metadata:
+
+```ts
+openGraph: {
+  images: [{ url: `/items/${id}/opengraph-image`, width: 1200, height: 630 }],
+},
+// shared list:
+openGraph: {
+  images: [{ url: `/api/og/list?token=${token}`, width: 1200, height: 630 }],
+},
+```
+
+---
+
+## Multi-domain canonical + host-aware sitemap
+
+```ts
+// lib/domains.ts
+export function primaryOrigin(host: string): string {
+  if (host.includes("sub.example.com")) return "https://sub.example.com";
+  return "https://example.com";
+}
+
+export function entityPublicPath(id: string): string {
+  return `/items/${id}`;
+}
+```
+
+```ts
+// app/sitemap.ts — use headers() to pick origin
+import { headers } from "next/headers";
+import { primaryOrigin } from "@/lib/domains";
+
+export default async function sitemap() {
+  const host = (await headers()).get("host") ?? "example.com";
+  const origin = primaryOrigin(host);
+  // emit URLs only on `origin`
+}
+```
+
+Each alias domain: `<link rel="canonical" href="{primaryOrigin}{path}">`.
+
+---
+
+## Optional: llms.txt (GEO)
+
+Plain text at `/public/llms.txt`:
+
+```txt
+# YourBrand
+> Curated map of X in City Y.
+
+## Key pages
+- https://example.com/faq
+- https://example.com/items/{id}
+```
