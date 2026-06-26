@@ -18,6 +18,15 @@ Next.js 앱 Google이랑 네이버 SEO 설정해줘.
 도메인: https://myapp.com
 ```
 
+## Codex — Basic
+
+```
+$web-seo-aeo-geo-google-naver
+
+Next.js 앱 Google이랑 네이버 SEO 설정해줘.
+도메인: https://myapp.com
+```
+
 ## AEO + GEO (FAQ, reviews, dynamic OG)
 
 ```

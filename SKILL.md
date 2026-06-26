@@ -7,7 +7,7 @@ description: >-
   BreadcrumbList JSON-LD, SSR crawlable pages, dynamic OG). Use when deploying
   a web app, setting up search indexing, AI Overviews, LLM citability, 서치어드바이저,
   or when the user asks for SEO/AEO/GEO. Cursor: @web-seo-aeo-geo-google-naver.
-  Claude Code: /web-seo-aeo-geo-google-naver.
+  Claude Code: /web-seo-aeo-geo-google-naver. Codex: $web-seo-aeo-geo-google-naver.
 ---
 
 # Web SEO + AEO + GEO — Google + Naver (Next.js)

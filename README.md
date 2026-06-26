@@ -1,6 +1,6 @@
 # Agent Skill: Web SEO + AEO + GEO (Google + Naver)
 
-**Cursor & Claude Code skill** for Next.js App Router — classic search indexing (SEO), Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO) end-to-end.
+**Cursor, Claude Code & Codex skill** for Next.js App Router — classic search indexing (SEO), Answer Engine Optimization (AEO), and Generative Engine Optimization (GEO) end-to-end.
 
 바이브코딩으로 웹 배포한 뒤, Google·네이버 검색 등록 + FAQ/리뷰 스키마 + 동적 OG까지 AI가 코드 작성 → 빌드 검증 → 콘솔 체크리스트까지 안내하게 하는 스킬.
 
@@ -60,6 +60,25 @@ git clone https://github.com/gunheeaug/web-seo-aeo-geo-google-naver-skill.git .c
 
 Skills are picked up automatically. If you add the folder mid-session, run `/reload-skills` or restart Claude Code.
 
+### Codex
+
+**Personal (all projects):**
+
+```bash
+git clone https://github.com/gunheeaug/web-seo-aeo-geo-google-naver-skill.git ~/.codex/skills/web-seo-aeo-geo-google-naver
+```
+
+Or use Codex's built-in installer (repo root is the skill):
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo gunheeaug/web-seo-aeo-geo-google-naver-skill \
+  --path . \
+  --name web-seo-aeo-geo-google-naver
+```
+
+Restart Codex after install.
+
 **Migrating from `web-seo-google-naver`:** remove the old folder and clone again with the new name above.
 
 ---
@@ -82,20 +101,29 @@ Next.js 앱 SEO + AEO/GEO 설정해줘.
 도메인: https://myapp.com
 ```
 
+### Codex
+```
+$web-seo-aeo-geo-google-naver
+
+Next.js 앱 SEO + AEO/GEO 설정해줘.
+도메인: https://myapp.com
+```
+
 Or ask naturally — the skill loads when you mention SEO, AEO, GEO, Search Console, or 서치어드바이저.
 
 More examples: [examples.md](examples.md)
 
 ---
 
-## Cursor vs Claude Code
+## Cursor vs Claude Code vs Codex
 
-| | Cursor | Claude Code |
-|---|--------|-------------|
-| Personal path | `~/.cursor/skills/web-seo-aeo-geo-google-naver/` | `~/.claude/skills/web-seo-aeo-geo-google-naver/` |
-| Project path | `.cursor/skills/web-seo-aeo-geo-google-naver/` | `.claude/skills/web-seo-aeo-geo-google-naver/` |
-| Invoke | `@web-seo-aeo-geo-google-naver` | `/web-seo-aeo-geo-google-naver` |
-| Skill file | `SKILL.md` | `SKILL.md` (same) |
+| | Cursor | Claude Code | Codex |
+|---|--------|-------------|-------|
+| Personal path | `~/.cursor/skills/web-seo-aeo-geo-google-naver/` | `~/.claude/skills/web-seo-aeo-geo-google-naver/` | `~/.codex/skills/web-seo-aeo-geo-google-naver/` |
+| Project path | `.cursor/skills/web-seo-aeo-geo-google-naver/` | `.claude/skills/web-seo-aeo-geo-google-naver/` | — (use personal path) |
+| Invoke | `@web-seo-aeo-geo-google-naver` | `/web-seo-aeo-geo-google-naver` | `$web-seo-aeo-geo-google-naver` |
+| Skill file | `SKILL.md` | `SKILL.md` (same) | `SKILL.md` (same) |
+| After install | Restart Cursor if needed | `/reload-skills` or restart | Restart Codex |
 
 ---
 
